@@ -3,6 +3,13 @@
 
 
 function newfilename() {
+        #if recycle bin directory does not exist create it.
+        local rbindir="recyclebin"
+        if ! [[ -e $rbindir && -d $rbindir ]]
+        then
+                mkdir recyclebin
+        fi
+
         local iode=$(ls -i $1 | cut -d" " -f1)
         local nfn="$1_iode"
         echo $nfn
@@ -44,17 +51,6 @@ then
 else #too many arguments-can't handle this yet
         echo "Wrong number of arguments. We will have to wait for phase 3 to handle this!"
         exit 1
-fi
-
-
-#create recyclebin directory
-recyclebinempty=3
-if find ./recyclebin 2>&1 /dev/null
-then
-        recyclebinempty=0
-else
-        recyclyebinempty=1
-        mkdir ./recyclebin
 fi
 
 #if find $1 > /dev/null 2>&1
