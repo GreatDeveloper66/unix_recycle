@@ -1,4 +1,15 @@
+#!/bin/bash
 #check for correct number of arguments
+
+
+function newfilename() {
+        local nfn=$(ls -i $1 | cut -d" " -f1)
+        echo $nfn
+}
+
+
+
+
 
 if [ $# -eq 0 ] #give missing operand warning for no arguments
 then
@@ -20,6 +31,8 @@ then
                                 exit 1
                         else
                                 echo "it is a proper file"
+                                recyclename=$(newfilename $1)
+                                #echo $recyclename
                                 exit 0
                         fi
                 fi
