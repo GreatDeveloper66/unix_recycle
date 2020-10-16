@@ -7,13 +7,21 @@ then
         exit 1
 elif [ $# -eq 1 ] #one argument is given-handle find and recycling file
 then
-        if find $1 > /dev/null 2>&1
+        #if find $1 > /dev/null 2>&1
+        if [ -e $1 ]
         then
                 #use list command and cut to see if it is a directory.
                 isDirectory=$(ls -l | grep $1 | grep ^d)
                 if [ -z "$isDirectory" ]
-                then
-                        echo "it is a file" #if isDirectory is empty it is a file
+                then #if isDirectory is empty it is a file
+                        #if [ $1 = "recycle" ]# if the user tries to recycle the recycle script, abort!
+                        #then
+                        #       echo "Attempting to delete recycle - operation aborted"
+                                exit 1
+                        #else
+                        #       echo "it is a proper file"
+                        #fi
+                        echo "it is a proper file"
                 else
                         echo "recycle: cannot remove '$1': Is a directory" #otherwise it is a directory-display error message
                 fi
