@@ -1,14 +1,17 @@
 #!/bin/bash
 #check for correct number of arguments
+hidden_file=".restore.info"
 
 function storefile() {
 
         #move to orginal directory-if hidden file does not exist create it.
         cd $2
-        if ! [ -e ".restore.info" ]
+        if ! [ -e $hidden_file ]
         then
-                touch ".restore.info"
+                touch $hidden_file
         fi
+
+        echo "$1:$2" >> $hidden_file
 
 }
 
