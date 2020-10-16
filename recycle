@@ -7,21 +7,16 @@ then
         exit 1
 elif [ $# -eq 1 ] #one argument is given-handle find and recycling file
 then
-        echo "let's see if this is a proper file"
         if find $1 > /dev/null 2>&1
         then
-                echo "recycling file"
                 #use list command and cut to see if it is a directory.
                 isDirectory=$(ls -l | grep $1 | grep ^d)
-                echo "$isDirectory"
                 if [ -z "$isDirectory" ]
                 then
-                        echo "it is a file"
+                        echo "it is a file" #if isDirectory is empty it is a file
                 else
-                        echo "it is a directory"
+                        echo "recycle: cannot remove '$1': Is a directory" #otherwise it is a directory-display error message
                 fi
-    #if it is a directory then display error message same as rm and exit 1
-                #if a regular file test to see if it is the recycle script
                 exit 0
         else
                 echo "recycle: cannot remove '$1': No such file or directory"
