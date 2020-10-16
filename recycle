@@ -1,8 +1,12 @@
 #!/bin/bash
 #check for correct number of arguments
 
+function storefile() {
+        echo $1
+        echo $2
+}
 
-function newfilename() {
+function recyclefile() {
         #if recycle bin directory does not exist create it.
         local rbindir="recyclebin"
         if ! [[ -e $rbindir && -d $rbindir ]]
@@ -10,9 +14,20 @@ function newfilename() {
                 mkdir recyclebin
         fi
 
+  #create new file name from iode number
         local iode=$(ls -i $1 | cut -d" " -f1)
-        local nfn="$1_iode"
-        echo $nfn
+        local nfn="$1_$iode"
+
+        #move file to recycle bin
+        mv $1 $rbindir
+        cd $rbindir
+        mv $1 $nfn
+        cd ..
+
+        local abspath=$(pwd)
+
+        storefile $nfn $abspath
+        return 0
 }
 
 
@@ -39,8 +54,7 @@ then
                                 exit 1
                         else
                                 echo "it is a proper file"
-                                recyclename=$(newfilename $1)
-                                #echo $recyclename
+                                recyclefile $1
                                 exit 0
                         fi
                 fi
