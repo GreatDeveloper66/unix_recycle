@@ -2,8 +2,14 @@
 #check for correct number of arguments
 
 function storefile() {
-        echo $1
-        echo $2
+
+        #move to orginal directory-if hidden file does not exist create it.
+        cd $2
+        if ! [ -e ".restore.info" ]
+        then
+                touch ".restore.info"
+        fi
+
 }
 
 function recyclefile() {
