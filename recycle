@@ -3,7 +3,8 @@
 
 
 function newfilename() {
-        local nfn=$(ls -i $1 | cut -d" " -f1)
+        local iode=$(ls -i $1 | cut -d" " -f1)
+        local nfn="$1_iode"
         echo $nfn
 }
 
