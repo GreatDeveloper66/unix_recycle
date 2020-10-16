@@ -1,4 +1,3 @@
-
 #check for correct number of arguments
 
 if [ $# -eq 0 ] #give missing operand warning for no arguments
@@ -13,12 +12,14 @@ then
         then
                 echo "recycling file"
                 #use list command and cut to see if it is a directory.
-                #if ls-l $1 | grep^d
-                #then
-                #       echo "it is a directory"
-                #else
-                #       echo "it is a file"
-                #fi
+                isDirectory=$(ls -l | grep $1 | grep ^d)
+                echo "$isDirectory"
+                if [ -z "$isDirectory" ]
+                then
+                        echo "it is a file"
+                else
+                        echo "it is a directory"
+                fi
     #if it is a directory then display error message same as rm and exit 1
                 #if a regular file test to see if it is the recycle script
                 exit 0
