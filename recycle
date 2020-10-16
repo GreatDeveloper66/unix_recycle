@@ -1,3 +1,4 @@
+
 #check for correct number of arguments
 
 if [ $# -eq 0 ] #give missing operand warning for no arguments
@@ -7,23 +8,14 @@ then
         exit 1
 elif [ $# -eq 1 ] #one argument is given-handle find and recycling file
 then
-        #if find $1 > /dev/null 2>&1
-        if [ -e $1 ]
+        if [ -e $1 ] #does the file exist?
         then
-                #use list command and cut to see if it is a directory.
-                isDirectory=$(ls -l | grep $1 | grep ^d)
-                if [ -z "$isDirectory" ]
-                then #if isDirectory is empty it is a file
-                        #if [ $1 = "recycle" ]# if the user tries to recycle the recycle script, abort!
-                        #then
-                        #       echo "Attempting to delete recycle - operation aborted"
+                if [ -d $1 ] #is it a directory?
+                then
+                                echo "recycle: cannot remove '$1': Is a directory"
                                 exit 1
-                        #else
-                        #       echo "it is a proper file"
-                        #fi
-                        echo "it is a proper file"
-                else
-                        echo "recycle: cannot remove '$1': Is a directory" #otherwise it is a directory-display error message
+                        else
+                                echo "it is a proper file"
                 fi
                 exit 0
         else
@@ -45,3 +37,5 @@ else
         recyclyebinempty=1
         mkdir ./recyclebin
 fi
+
+#if find $1 > /dev/null 2>&1
