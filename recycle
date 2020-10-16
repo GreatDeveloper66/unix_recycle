@@ -1,0 +1,31 @@
+if [ $# -eq 0 ] #give missing operand warning for no arguments
+then
+        echo "recycle: missing operand"
+        echo "Try 'recycle --help' for more information"
+        exit 1
+elif [ $# -eq 1 ] #one argument is given-handle find and recycling file
+then
+        echo "let's see if this is a proper file"
+        if find randomfile > /dev/null 2>&1
+        then
+                echo "recycling file"
+                exit 0
+        else
+                echo "recycle: cannot remove '$1': No such file or directory"
+                exit 1
+        fi
+else #too many arguments-can't handle this yet
+        echo "Wrong number of arguments. We will have to wait for phase 3 to handle this!"
+        exit 1
+fi
+
+
+#create recyclebin directory
+recyclebinempty=3
+if find ./recyclebin 2>&1 /dev/null
+then
+        recyclebinempty=0
+else
+        recyclyebinempty=1
+        mkdir ./recyclebin
+fi
