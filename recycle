@@ -1,3 +1,4 @@
+
 #!/bin/bash
 #check for correct number of arguments
 hidden_file=".restore.info"
@@ -39,7 +40,28 @@ function recyclefile() {
         return 0
 }
 
-
+function processfile() {
+        if [ -e $1 ] #does the file exist?
+  then
+        if [ -d $1 ] #is it a directory?
+    then
+        echo "recycle: cannot remove '$1': Is a directory"
+      exit 1
+    else
+        if [ $1 = "recycle" ]
+      then
+        echo "Attempting to delete recycle - operation aborted"
+        exit 1
+      else
+        echo "it is a proper file"
+        recyclefile $1
+      fi
+    fi
+  else
+        echo "recycle: cannot remove '$1': No such file or directory"
+    exit 1
+  fi
+}
 
 
 
@@ -48,32 +70,10 @@ then
         echo "recycle: missing operand"
         echo "Try 'recycle --help' for more information"
         exit 1
-elif [ $# -eq 1 ] #one argument is given-handle find and recycling file
-then
-        if [ -e $1 ] #does the file exist?
-        then
-                if [ -d $1 ] #is it a directory?
-                then
-                        echo "recycle: cannot remove '$1': Is a directory"
-                        exit 1
-                else
-                        if [ $1 = "recycle" ]
-                        then
-                                echo "Attempting to delete recycle - operation aborted"
-                                exit 1
-                        else
-                                echo "it is a proper file"
-                                recyclefile $1
-                                exit 0
-                        fi
-                fi
-        else
-                echo "recycle: cannot remove '$1': No such file or directory"
-                exit 1
-        fi
-else #too many arguments-can't handle this yet
-        echo "Wrong number of arguments. We will have to wait for phase 3 to handle this!"
-        exit 1
+else #start processsing file arguments
+        for i in $* #for loop goes through each file argument
+        do
+                processfile $i
+        done
+        exit 0
 fi
-
-#if find $1 > /dev/null 2>&1
